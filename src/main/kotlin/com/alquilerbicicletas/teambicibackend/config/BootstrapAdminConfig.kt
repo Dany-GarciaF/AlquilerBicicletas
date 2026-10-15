@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.password.PasswordEncoder
 
+/** Crea el usuario administrador inicial al arrancar, a partir de ADMIN_EMAIL y ADMIN_PASSWORD, si aún no existe. */
 @Configuration
 class BootstrapAdminConfig {
     @Bean

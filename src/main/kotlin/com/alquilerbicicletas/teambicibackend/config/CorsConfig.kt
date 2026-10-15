@@ -7,6 +7,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+/** Define qué orígenes del frontend (frontend.allowed-origins) pueden llamar a la API desde el navegador. */
 @Configuration
 class CorsConfig(
     @Value("\${frontend.allowed-origins}") private val allowedOrigins: String,
