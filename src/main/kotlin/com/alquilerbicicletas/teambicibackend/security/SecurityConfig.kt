@@ -1,6 +1,7 @@
 package com.alquilerbicicletas.teambicibackend.security
 
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.context.annotation.Configuration
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.security.authentication.AuthenticationManager
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
+/** Configuración de seguridad: API sin estado con JWT, rutas públicas, roles y login con Google. */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -24,6 +26,7 @@ class SecurityConfig(
     private val authenticationEntryPoint: RestAuthenticationEntryPoint,
     private val accessDeniedHandler: RestAccessDeniedHandler,
     private val googleOAuth2SuccessHandler: ObjectProvider<GoogleOAuth2SuccessHandler>,
+    private val authorizationRequestResolver: ObjectProvider<ClientAwareAuthorizationRequestResolver>,
 ) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -37,12 +40,18 @@ class SecurityConfig(
             }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth/registro", "/api/auth/login", "/api/auth/refresh", "/api/auth/oauth2/**", "/oauth2/**", "/login/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/bicicletas/disponibles", "/api/estaciones", "/api/estaciones/*", "/api/tarifas", "/uploads/**").permitAll()
                     .anyRequest().authenticated()
             }
             .authenticationProvider(daoAuthenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
         googleOAuth2SuccessHandler.ifAvailable?.let { handler ->
-            http.oauth2Login { it.successHandler(handler) }
+            http.oauth2Login { login ->
+                login.successHandler(handler).failureHandler(handler)
+                authorizationRequestResolver.ifAvailable?.let { resolver ->
+                    login.authorizationEndpoint { it.authorizationRequestResolver(resolver) }
+                }
+            }
         }
         return http.build()
     }

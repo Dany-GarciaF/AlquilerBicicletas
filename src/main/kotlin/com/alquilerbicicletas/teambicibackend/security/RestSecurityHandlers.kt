@@ -12,6 +12,7 @@ import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.stereotype.Component
 import tools.jackson.databind.ObjectMapper
 
+/** Responde 401 en JSON cuando se accede sin autenticación. */
 @Component
 class RestAuthenticationEntryPoint(
     private val objectMapper: ObjectMapper,
@@ -34,6 +35,7 @@ class RestAuthenticationEntryPoint(
     }
 }
 
+/** Responde 403 en JSON cuando el usuario no tiene permisos suficientes. */
 @Component
 class RestAccessDeniedHandler(
     private val objectMapper: ObjectMapper,

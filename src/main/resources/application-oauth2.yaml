@@ -18,4 +18,5 @@ spring:
 security:
   oauth2:
     frontend-success-url: ${FRONTEND_OAUTH_SUCCESS_URL}
+    mobile-success-url: ${MOBILE_OAUTH_SUCCESS_URL:teambici://auth/google/callback}
     authorization-code-ttl-seconds: ${OAUTH_AUTHORIZATION_CODE_TTL_SECONDS:60}

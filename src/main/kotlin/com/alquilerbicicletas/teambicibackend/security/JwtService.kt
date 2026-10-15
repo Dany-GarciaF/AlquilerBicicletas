@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Date
 import javax.crypto.SecretKey
 
+/** Genera y valida los tokens JWT de acceso. */
 @Service
 class JwtService(
     @Value("\${security.jwt.secret}") private val secret: String,

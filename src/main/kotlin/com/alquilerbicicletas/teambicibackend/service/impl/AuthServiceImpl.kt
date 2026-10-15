@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+/** Implementa registro, login y renovación de sesión con contraseñas cifradas, JWT y refresh tokens. */
 @Service
 class AuthServiceImpl(
     private val usuarios: UsuarioRepository,
