@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.security.core.AuthenticationException
 
+/** Traduce las excepciones de la aplicación y de validación a respuestas HTTP con formato ErrorResponse. */
 @RestControllerAdvice
 class GlobalExceptionHandler {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -23,6 +25,13 @@ class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException::class)
     fun handleUnauthorized(exception: UnauthorizedException, request: HttpServletRequest): ResponseEntity<ErrorResponse> =
         response(HttpStatus.UNAUTHORIZED, exception.message, request)
+
+    @ExceptionHandler(AuthenticationException::class)
+    fun handleAuthentication(
+        exception: AuthenticationException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> =
+        response(HttpStatus.UNAUTHORIZED, "Correo o contraseña incorrectos", request)
 
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleNotFound(
