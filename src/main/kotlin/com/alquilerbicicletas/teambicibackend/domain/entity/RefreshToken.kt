@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.Instant
 
+/** Refresh token de una sesión (se guarda su hash); los de una misma familia se rotan en cada renovación. */
 @Entity
 @Table(name = "refresh_tokens")
 class RefreshToken(

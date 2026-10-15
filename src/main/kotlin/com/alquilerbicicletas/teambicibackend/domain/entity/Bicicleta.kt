@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
+/** Entidad de una bicicleta de la flota: código, tipo, estado, estación actual e imagen opcional. */
 @Entity
 @Table(name = "bicicletas")
 class Bicicleta(
@@ -36,4 +37,7 @@ class Bicicleta(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    @Column(name = "imagen_url", length = 500)
+    var imagenUrl: String? = null
 }

@@ -20,6 +20,7 @@ import jakarta.persistence.UniqueConstraint
         UniqueConstraint(name = "uk_usuario_proveedor_id", columnNames = ["proveedor_auth", "proveedor_id"]),
     ],
 )
+/** Entidad de un usuario: credenciales o cuenta de Google, rol y estado. */
 class Usuario(
     @Column(nullable = false, length = 100)
     var nombre: String,

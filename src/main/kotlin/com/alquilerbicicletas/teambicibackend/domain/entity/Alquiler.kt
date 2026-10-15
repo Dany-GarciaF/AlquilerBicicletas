@@ -15,6 +15,7 @@ import jakarta.persistence.Table
 import java.math.BigDecimal
 import java.time.Instant
 
+/** Entidad de un alquiler: usuario, bicicleta, estaciones de retiro y devolución, tarifa aplicada y costo final. */
 @Entity
 @Table(name = "alquileres")
 class Alquiler(
