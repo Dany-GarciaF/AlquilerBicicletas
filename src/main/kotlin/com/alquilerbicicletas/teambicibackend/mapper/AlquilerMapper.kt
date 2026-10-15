@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.Instant
 
+/** Convierte entre la entidad Alquiler y sus DTOs. */
 @Component
 class AlquilerMapper {
     fun toEntity(

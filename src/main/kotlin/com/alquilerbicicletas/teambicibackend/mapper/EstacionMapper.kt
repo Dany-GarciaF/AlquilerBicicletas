@@ -5,6 +5,7 @@ import com.alquilerbicicletas.teambicibackend.api.dto.estacion.EstacionResponseD
 import com.alquilerbicicletas.teambicibackend.domain.entity.Estacion
 import org.springframework.stereotype.Component
 
+/** Convierte entre la entidad Estacion y sus DTOs. */
 @Component
 class EstacionMapper {
     fun toEntity(dto: EstacionRequestDto): Estacion =

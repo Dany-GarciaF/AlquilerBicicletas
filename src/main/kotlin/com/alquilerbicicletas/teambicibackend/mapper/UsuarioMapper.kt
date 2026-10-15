@@ -6,6 +6,7 @@ import com.alquilerbicicletas.teambicibackend.domain.entity.Usuario
 import com.alquilerbicicletas.teambicibackend.domain.enums.ProveedorAuth
 import org.springframework.stereotype.Component
 
+/** Convierte la entidad Usuario en su DTO de respuesta. */
 @Component
 class UsuarioMapper {
     fun toEntity(dto: RegistroRequestDto, contrasenaHash: String): Usuario =

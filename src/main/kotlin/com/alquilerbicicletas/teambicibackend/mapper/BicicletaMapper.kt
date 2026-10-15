@@ -6,6 +6,7 @@ import com.alquilerbicicletas.teambicibackend.domain.entity.Bicicleta
 import com.alquilerbicicletas.teambicibackend.domain.entity.Estacion
 import org.springframework.stereotype.Component
 
+/** Convierte entre la entidad Bicicleta y sus DTOs. */
 @Component
 class BicicletaMapper {
     fun toEntity(dto: BicicletaRequestDto, estacion: Estacion): Bicicleta =
@@ -35,5 +36,6 @@ class BicicletaMapper {
             estado = entity.estado,
             estacionId = entity.estacionActual.id!!,
             estacionNombre = entity.estacionActual.nombre,
+            imagenUrl = entity.imagenUrl,
         )
 }
