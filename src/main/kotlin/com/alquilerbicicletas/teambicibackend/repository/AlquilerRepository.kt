@@ -4,6 +4,7 @@ import com.alquilerbicicletas.teambicibackend.domain.entity.Alquiler
 import com.alquilerbicicletas.teambicibackend.domain.enums.EstadoAlquiler
 import org.springframework.data.jpa.repository.JpaRepository
 
+/** Acceso a datos de alquileres. */
 interface AlquilerRepository : JpaRepository<Alquiler, Long> {
     fun findByUsuarioIdOrderByFechaInicioDesc(usuarioId: Long): List<Alquiler>
     fun existsByBicicletaIdAndEstado(bicicletaId: Long, estado: EstadoAlquiler): Boolean

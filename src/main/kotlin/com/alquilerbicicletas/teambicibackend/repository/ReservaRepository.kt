@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.Instant
 
+/** Acceso a datos de reservas, incluida la detección de solapamientos. */
 interface ReservaRepository : JpaRepository<Reserva, Long> {
     fun findByUsuarioIdOrderByFechaInicioDesc(usuarioId: Long): List<Reserva>
 
