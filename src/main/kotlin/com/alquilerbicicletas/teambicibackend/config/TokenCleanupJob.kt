@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
+/** Tarea programada que elimina periódicamente los refresh tokens vencidos o revocados. */
 @Component
 class TokenCleanupJob(
     private val refreshTokens: RefreshTokenRepository,
