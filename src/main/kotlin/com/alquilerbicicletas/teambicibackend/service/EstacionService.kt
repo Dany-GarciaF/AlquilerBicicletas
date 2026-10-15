@@ -3,6 +3,7 @@ package com.alquilerbicicletas.teambicibackend.service
 import com.alquilerbicicletas.teambicibackend.api.dto.estacion.EstacionRequestDto
 import com.alquilerbicicletas.teambicibackend.api.dto.estacion.EstacionResponseDto
 
+/** Casos de uso de estaciones. */
 interface EstacionService {
     fun crear(dto: EstacionRequestDto): EstacionResponseDto
     fun listar(): List<EstacionResponseDto>

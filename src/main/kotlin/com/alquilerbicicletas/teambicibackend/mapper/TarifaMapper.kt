@@ -5,6 +5,7 @@ import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.TarifaResponseDto
 import com.alquilerbicicletas.teambicibackend.domain.entity.Tarifa
 import org.springframework.stereotype.Component
 
+/** Convierte entre la entidad Tarifa y sus DTOs. */
 @Component
 class TarifaMapper {
     fun toEntity(dto: TarifaRequestDto): Tarifa =

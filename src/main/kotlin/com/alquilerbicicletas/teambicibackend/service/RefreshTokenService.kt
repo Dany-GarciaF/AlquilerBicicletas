@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Base64
 import java.util.UUID
 
+/** Emite, rota y revoca refresh tokens; detecta la reutilización de un token ya rotado. */
 @Service
 class RefreshTokenService(
     private val tokens: RefreshTokenRepository,
@@ -54,6 +55,7 @@ class RefreshTokenService(
     private fun hash(value: String): String = MessageDigest.getInstance("SHA-256").digest(value.toByteArray(StandardCharsets.UTF_8)).joinToString("") { "%02x".format(it) }
 }
 
+/** Resultado de rotar un refresh token: el id del usuario y el nuevo token. */
 data class RotatedRefreshToken(
     val usuarioId: Long,
     val refreshToken: String,
