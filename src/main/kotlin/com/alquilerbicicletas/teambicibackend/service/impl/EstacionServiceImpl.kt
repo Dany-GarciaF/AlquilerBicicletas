@@ -10,6 +10,7 @@ import com.alquilerbicicletas.teambicibackend.service.EstacionService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+/** Implementa los casos de uso de estaciones. */
 @Service
 class EstacionServiceImpl(private val repository: EstacionRepository, private val mapper: EstacionMapper) : EstacionService {
     @Transactional

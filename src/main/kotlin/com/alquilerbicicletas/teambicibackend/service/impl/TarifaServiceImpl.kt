@@ -10,6 +10,7 @@ import com.alquilerbicicletas.teambicibackend.service.TarifaService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+/** Implementa los casos de uso de tarifas. */
 @Service
 class TarifaServiceImpl(private val repository: TarifaRepository, private val mapper: TarifaMapper) : TarifaService {
     @Transactional

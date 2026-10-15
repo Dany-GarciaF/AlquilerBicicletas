@@ -3,6 +3,7 @@ package com.alquilerbicicletas.teambicibackend.service
 import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.TarifaRequestDto
 import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.TarifaResponseDto
 
+/** Casos de uso de tarifas. */
 interface TarifaService {
     fun crear(dto: TarifaRequestDto): TarifaResponseDto
     fun listar(): List<TarifaResponseDto>
