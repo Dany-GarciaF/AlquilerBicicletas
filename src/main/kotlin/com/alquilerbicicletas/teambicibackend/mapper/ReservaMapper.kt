@@ -9,6 +9,7 @@ import com.alquilerbicicletas.teambicibackend.domain.entity.Usuario
 import com.alquilerbicicletas.teambicibackend.domain.enums.EstadoReserva
 import org.springframework.stereotype.Component
 
+/** Convierte entre la entidad Reserva y sus DTOs. */
 @Component
 class ReservaMapper {
     fun toEntity(
