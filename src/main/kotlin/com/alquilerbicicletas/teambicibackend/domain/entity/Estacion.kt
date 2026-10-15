@@ -8,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.math.BigDecimal
 
+/** Entidad de una estación donde se retiran y devuelven bicicletas, con sus coordenadas. */
 @Entity
 @Table(name = "estaciones")
 class Estacion(

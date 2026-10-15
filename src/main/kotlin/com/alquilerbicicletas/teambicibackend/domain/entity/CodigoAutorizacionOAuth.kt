@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.Instant
 
+/** Código de un solo uso y corta vida que el frontend canjea por tokens tras iniciar sesión con Google (se guarda su hash). */
 @Entity
 @Table(name = "codigos_autorizacion_oauth")
 class CodigoAutorizacionOAuth(

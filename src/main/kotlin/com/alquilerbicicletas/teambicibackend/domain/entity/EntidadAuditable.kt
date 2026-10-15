@@ -6,6 +6,7 @@ import jakarta.persistence.PrePersist
 import jakarta.persistence.PreUpdate
 import java.time.Instant
 
+/** Clase base de las entidades que registra automáticamente las fechas de creación y modificación. */
 @MappedSuperclass
 abstract class EntidadAuditable {
     @Column(nullable = false, updatable = false)

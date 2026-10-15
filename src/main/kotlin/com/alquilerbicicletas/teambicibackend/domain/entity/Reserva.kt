@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.Instant
 
+/** Entidad de una reserva de una bicicleta para un periodo futuro. */
 @Entity
 @Table(name = "reservas")
 class Reserva(
