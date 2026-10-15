@@ -1,0 +1,2 @@
+# Local API endpoint. This file is ignored by Git when named api.local.properties.
+apiBaseUrl=http://localhost:8080
