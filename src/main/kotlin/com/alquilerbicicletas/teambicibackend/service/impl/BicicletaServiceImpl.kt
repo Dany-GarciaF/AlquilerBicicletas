@@ -9,11 +9,15 @@ import com.alquilerbicicletas.teambicibackend.mapper.BicicletaMapper
 import com.alquilerbicicletas.teambicibackend.repository.BicicletaRepository
 import com.alquilerbicicletas.teambicibackend.repository.EstacionRepository
 import com.alquilerbicicletas.teambicibackend.service.BicicletaService
+import com.alquilerbicicletas.teambicibackend.storage.ImageStorage
+import com.alquilerbicicletas.teambicibackend.storage.ImageValidator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
+/** Gestiona la flota y las imágenes: valida el archivo, lo guarda en ImageStorage y reemplaza o elimina la anterior. */
 @Service
-class BicicletaServiceImpl(private val bicicletas: BicicletaRepository, private val estaciones: EstacionRepository, private val mapper: BicicletaMapper) : BicicletaService {
+class BicicletaServiceImpl(private val bicicletas: BicicletaRepository, private val estaciones: EstacionRepository, private val mapper: BicicletaMapper, private val storage: ImageStorage) : BicicletaService {
     @Transactional
     override fun crear(dto: BicicletaRequestDto): BicicletaResponseDto {
         if (bicicletas.existsByCodigo(dto.codigo.trim().uppercase())) throw BusinessException("El código de bicicleta ya existe")
@@ -45,6 +49,23 @@ class BicicletaServiceImpl(private val bicicletas: BicicletaRepository, private 
         } else {
             bicicletas.findByEstacionActualIdAndEstado(estacionId, EstadoBicicleta.DISPONIBLE)
         }).map(mapper::toResponse)
+    @Transactional
+    override fun actualizarImagen(id: Long, content: ByteArray): BicicletaResponseDto {
+        val entity = bicicleta(id)
+        val format = ImageValidator.detect(content)
+        val previous = entity.imagenUrl
+        entity.imagenUrl = storage.store("bicicletas/$id-${UUID.randomUUID()}.${format.extension}", content, format.contentType)
+        previous?.let(::deleteQuietly)
+        return mapper.toResponse(entity)
+    }
+    @Transactional
+    override fun eliminarImagen(id: Long): BicicletaResponseDto {
+        val entity = bicicleta(id)
+        entity.imagenUrl?.let(::deleteQuietly)
+        entity.imagenUrl = null
+        return mapper.toResponse(entity)
+    }
+    private fun deleteQuietly(url: String) = runCatching { storage.delete(url) }
     private fun bicicleta(id: Long) = bicicletas.findById(id).orElseThrow { ResourceNotFoundException("Bicicleta no encontrada") }
     private fun estacion(id: Long) = estaciones.findById(id).orElseThrow { ResourceNotFoundException("Estación no encontrada") }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
+/** Valida el periodo y que no haya solapamientos antes de confirmar una reserva. */
 @Service
 class ReservaServiceImpl(
     private val reservas: ReservaRepository, private val usuarios: UsuarioRepository, private val bicicletas: BicicletaRepository,

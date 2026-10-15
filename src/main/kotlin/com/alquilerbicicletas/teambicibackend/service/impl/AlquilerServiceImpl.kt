@@ -16,6 +16,7 @@ import java.math.RoundingMode
 import java.time.Duration
 import java.time.Instant
 
+/** Inicia un alquiler solo si la bicicleta está disponible en la estación y calcula el costo al devolverla. */
 @Service
 class AlquilerServiceImpl(
     private val alquileres: AlquilerRepository, private val usuarios: UsuarioRepository, private val bicicletas: BicicletaRepository,

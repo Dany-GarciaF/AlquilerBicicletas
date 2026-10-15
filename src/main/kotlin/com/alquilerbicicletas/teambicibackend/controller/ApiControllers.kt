@@ -9,12 +9,15 @@ import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.*
 import com.alquilerbicicletas.teambicibackend.domain.enums.EstadoBicicleta
 import com.alquilerbicicletas.teambicibackend.security.UsuarioPrincipal
 import com.alquilerbicicletas.teambicibackend.service.*
+import org.springframework.http.MediaType
+import org.springframework.web.multipart.MultipartFile
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
+/** Endpoints de autenticación: registro, login, renovación de token e intercambio del código de Google. */
 @RestController
 @RequestMapping("/api/auth")
 class AuthController(
@@ -34,6 +37,7 @@ class AuthController(
     fun logout(@AuthenticationPrincipal usuario: UsuarioPrincipal) = service.logout(usuario.usuarioId)
 }
 
+/** Endpoints de estaciones: lectura pública y alta/edición solo para administradores. */
 @RestController
 @RequestMapping("/api/estaciones")
 class EstacionController(private val service: EstacionService) {
@@ -47,6 +51,7 @@ class EstacionController(private val service: EstacionService) {
     fun eliminar(@PathVariable id: Long) = service.eliminar(id)
 }
 
+/** Endpoints de tarifas por tipo de bicicleta: lectura pública y edición solo para administradores. */
 @RestController
 @RequestMapping("/api/tarifas")
 class TarifaController(private val service: TarifaService) {
@@ -57,6 +62,7 @@ class TarifaController(private val service: TarifaService) {
     fun actualizar(@PathVariable id: Long, @Valid @RequestBody dto: TarifaRequestDto) = service.actualizar(id, dto)
 }
 
+/** Endpoints de bicicletas: catálogo, estado, y subida o eliminación de su imagen (administradores). */
 @RestController
 @RequestMapping("/api/bicicletas")
 class BicicletaController(private val service: BicicletaService) {
@@ -69,8 +75,13 @@ class BicicletaController(private val service: BicicletaService) {
     fun actualizar(@PathVariable id: Long, @Valid @RequestBody dto: BicicletaRequestDto) = service.actualizar(id, dto)
     @PatchMapping("/{id}/estado") @PreAuthorize("hasRole('ADMINISTRADOR')")
     fun estado(@PathVariable id: Long, @RequestParam estado: EstadoBicicleta) = service.cambiarEstado(id, estado)
+    @PostMapping("/{id}/imagen", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]) @PreAuthorize("hasRole('ADMINISTRADOR')")
+    fun subirImagen(@PathVariable id: Long, @RequestParam("archivo") archivo: MultipartFile) = service.actualizarImagen(id, archivo.bytes)
+    @DeleteMapping("/{id}/imagen") @PreAuthorize("hasRole('ADMINISTRADOR')")
+    fun eliminarImagen(@PathVariable id: Long) = service.eliminarImagen(id)
 }
 
+/** Endpoints para que el usuario autenticado cree, consulte y cancele sus reservas. */
 @RestController
 @RequestMapping("/api/reservas")
 class ReservaController(private val service: ReservaService) {
@@ -81,6 +92,7 @@ class ReservaController(private val service: ReservaService) {
     fun cancelar(@PathVariable id: Long, @AuthenticationPrincipal usuario: UsuarioPrincipal) = service.cancelar(id, usuario.usuarioId)
 }
 
+/** Endpoints para que el usuario autenticado inicie un alquiler, consulte los suyos y los devuelva. */
 @RestController
 @RequestMapping("/api/alquileres")
 class AlquilerController(private val service: AlquilerService) {
