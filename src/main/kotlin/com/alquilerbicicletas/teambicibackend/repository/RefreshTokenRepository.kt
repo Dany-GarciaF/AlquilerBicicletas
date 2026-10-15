@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.Instant
 
+/** Acceso a datos de refresh tokens, incluida la revocación por familia. */
 interface RefreshTokenRepository : JpaRepository<RefreshToken, Long> {
     fun findByTokenHash(tokenHash: String): RefreshToken?
 
