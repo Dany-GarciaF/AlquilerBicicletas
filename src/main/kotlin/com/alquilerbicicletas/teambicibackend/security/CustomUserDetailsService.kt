@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
+/** Carga un usuario por su correo para que Spring Security lo autentique. */
 @Service
 class CustomUserDetailsService(
     private val usuarioRepository: UsuarioRepository,

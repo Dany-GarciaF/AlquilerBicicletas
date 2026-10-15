@@ -18,6 +18,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Base64
 
+/** Vincula la cuenta de Google con un usuario local y gestiona el código de un solo uso que se canjea por tokens. */
 @Service
 class GoogleOAuth2Service(
     private val usuarios: UsuarioRepository,

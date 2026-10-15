@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
+/** Usuario autenticado tal como lo ve Spring Security (id, correo, rol). */
 class UsuarioPrincipal(
     val usuarioId: Long,
     private val correo: String,

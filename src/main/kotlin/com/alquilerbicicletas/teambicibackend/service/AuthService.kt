@@ -4,6 +4,7 @@ import com.alquilerbicicletas.teambicibackend.api.dto.auth.AuthResponseDto
 import com.alquilerbicicletas.teambicibackend.api.dto.auth.LoginRequestDto
 import com.alquilerbicicletas.teambicibackend.api.dto.auth.RegistroRequestDto
 
+/** Casos de uso de autenticación: registro, login y renovación de sesión. */
 interface AuthService {
     fun registrar(dto: RegistroRequestDto): AuthResponseDto
     fun iniciarSesion(dto: LoginRequestDto): AuthResponseDto

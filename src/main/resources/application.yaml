@@ -10,6 +10,10 @@ spring:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
   jpa:
     hibernate:
       ddl-auto: ${JPA_DDL_AUTO:update}
@@ -35,6 +39,18 @@ team-bici:
     password: ${ADMIN_PASSWORD:}
     nombre: ${ADMIN_NOMBRE:Administrador}
     apellido: ${ADMIN_APELLIDO:TeamBici}
+
+storage:
+  provider: ${STORAGE_PROVIDER:local}
+  local:
+    directory: ${STORAGE_LOCAL_DIR:uploads}
+    public-base-url: ${STORAGE_PUBLIC_BASE_URL:/uploads}
+  r2:
+    account-id: ${R2_ACCOUNT_ID:}
+    access-key-id: ${R2_ACCESS_KEY_ID:}
+    secret-access-key: ${R2_SECRET_ACCESS_KEY:}
+    bucket: ${R2_BUCKET:}
+    public-base-url: ${R2_PUBLIC_BASE_URL:}
 
 frontend:
   allowed-origins: ${FRONTEND_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8081}
