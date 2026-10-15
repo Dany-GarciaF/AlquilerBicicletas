@@ -12,4 +12,5 @@ data class BicicletaResponseDto(
     val estado: EstadoBicicleta,
     val estacionId: Long,
     val estacionNombre: String,
+    val imagenUrl: String?,
 )
