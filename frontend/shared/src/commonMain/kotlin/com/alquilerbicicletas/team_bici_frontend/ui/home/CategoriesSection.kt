@@ -81,7 +81,8 @@ fun CategoriesSection(catalog: CatalogState, onSelect: (TipoBicicleta) -> Unit) 
 private fun CategoryTile(tipo: TipoBicicleta, catalog: CatalogState, onClick: () -> Unit) {
     // Transparent bike cutout bundled with the app; tinted with the tile's text color.
     val cutout by rememberStaticImage("categoria-${tipo.name.lowercase()}")
-    val remotePhoto = if (cutout == null) catalog.bicicletas.firstOrNull { it.tipo == tipo && it.imagenUrl != null }?.imagenUrl else null
+    val remoteBike = if (cutout == null) catalog.bicicletas.firstOrNull { it.tipo == tipo && it.imagenUrl != null } else null
+    val remotePhoto = remoteBike?.imagenUrl
     val style = styleFor(tipo).let { if (remotePhoto != null) it.copy(content = Color.White) else it }
     val available = catalog.availableOfType(tipo)
     val rate = catalog.tarifaFor(tipo)?.valorHora
@@ -104,7 +105,7 @@ private fun CategoryTile(tipo: TipoBicicleta, catalog: CatalogState, onClick: ()
                 colorFilter = ColorFilter.tint(style.content.copy(alpha = 0.92f)),
             )
         } else if (remotePhoto != null) {
-            BikePhoto(remotePhoto, Modifier.fillMaxSize())
+            BikePhoto(remotePhoto, Modifier.fillMaxSize(), ajuste = remoteBike.imagenAjuste)
             Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black.copy(alpha = 0.72f), Color.Transparent))))
         } else {
             BikeIllustration(

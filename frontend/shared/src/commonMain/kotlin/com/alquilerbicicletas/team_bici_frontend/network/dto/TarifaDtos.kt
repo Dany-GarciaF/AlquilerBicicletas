@@ -15,4 +15,5 @@ data class TarifaResponseDto(
     val tipoBicicleta: TipoBicicleta,
     val valorHora: Double,
     val activa: Boolean,
+    val minutosMinimos: Int = 30,
 )

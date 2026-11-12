@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.alquilerbicicletas.team_bici_frontend.network.ApiRequestException
 import com.alquilerbicicletas.team_bici_frontend.network.BicicletaRepository
 import com.alquilerbicicletas.team_bici_frontend.network.EstacionRepository
+import com.alquilerbicicletas.team_bici_frontend.network.dto.AjusteImagen
 import com.alquilerbicicletas.team_bici_frontend.network.dto.BicicletaRequestDto
 import com.alquilerbicicletas.team_bici_frontend.network.dto.BicicletaResponseDto
 import com.alquilerbicicletas.team_bici_frontend.network.dto.EstacionResponseDto
@@ -123,6 +124,7 @@ fun BicicletasAdmin(
                         url = entry.imagenUrl,
                         contentDescription = "${entry.marca} ${entry.modelo}",
                         modifier = Modifier.fillMaxSize(),
+                        ajuste = entry.imagenAjuste,
                         fallback = {
                             BikeIllustration(
                                 MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f),
@@ -172,6 +174,7 @@ private fun BicicletaForm(
     var submitted by remember(initial) { mutableStateOf(false) }
     var image by remember(initial) { mutableStateOf<PickedImage?>(null) }
     var imageRemoved by remember(initial) { mutableStateOf(false) }
+    var ajuste by remember(initial) { mutableStateOf(initial?.imagenAjuste ?: AjusteImagen.RELLENAR) }
     val required = "Campo obligatorio"
 
     FormDialog(
@@ -181,7 +184,7 @@ private fun BicicletaForm(
             submitted = true
             stationId?.let { id ->
                 if (code.isNotBlank() && brand.isNotBlank() && model.isNotBlank()) {
-                    onSave(BicicletaRequestDto(code.trim(), brand.trim(), model.trim(), type, id), image, imageRemoved && image == null)
+                    onSave(BicicletaRequestDto(code.trim(), brand.trim(), model.trim(), type, id, ajuste), image, imageRemoved && image == null)
                 }
             }
         },
@@ -195,6 +198,8 @@ private fun BicicletaForm(
             removed = imageRemoved,
             onPicked = { image = it; imageRemoved = false },
             onRemove = { image = null; imageRemoved = true },
+            ajuste = ajuste,
+            onAjusteChange = { ajuste = it },
         )
         Text("Tipo")
         ChipRow {

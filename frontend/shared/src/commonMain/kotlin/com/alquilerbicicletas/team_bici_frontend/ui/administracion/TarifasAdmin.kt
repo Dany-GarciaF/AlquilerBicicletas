@@ -81,7 +81,7 @@ fun TarifasAdmin(repository: TarifaRepository, header: @Composable () -> Unit) {
             AppCard(Modifier.fillMaxWidth().animateContentSize()) {
                 AdminCardBody {
                     Text(estadoLabel(entry.tipoBicicleta.name), style = MaterialTheme.typography.titleLarge)
-                    Text("${formatCurrency(entry.valorHora)} por hora", style = MaterialTheme.typography.titleMedium)
+                    Text("${formatCurrency(entry.valorHora)} por hora · mínimo ${entry.minutosMinimos} min", style = MaterialTheme.typography.titleMedium)
                     StatusBadge(
                         text = if (entry.activa) "Tarifa activa" else "Tarifa inactiva",
                         tone = if (entry.activa) BadgeTone.SUCCESS else BadgeTone.DANGER,
