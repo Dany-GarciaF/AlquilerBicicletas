@@ -8,4 +8,5 @@ data class TarifaResponseDto(
     val tipoBicicleta: TipoBicicleta,
     val valorHora: BigDecimal,
     val activa: Boolean,
+    val minutosMinimos: Int,
 )

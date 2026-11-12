@@ -3,11 +3,12 @@ package com.alquilerbicicletas.teambicibackend.mapper
 import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.TarifaRequestDto
 import com.alquilerbicicletas.teambicibackend.api.dto.tarifa.TarifaResponseDto
 import com.alquilerbicicletas.teambicibackend.domain.entity.Tarifa
+import com.alquilerbicicletas.teambicibackend.service.PoliticaCobro
 import org.springframework.stereotype.Component
 
 /** Convierte entre la entidad Tarifa y sus DTOs. */
 @Component
-class TarifaMapper {
+class TarifaMapper(private val politica: PoliticaCobro) {
     fun toEntity(dto: TarifaRequestDto): Tarifa =
         Tarifa(
             tipoBicicleta = dto.tipoBicicleta,
@@ -27,5 +28,6 @@ class TarifaMapper {
             tipoBicicleta = entity.tipoBicicleta,
             valorHora = entity.valorHora,
             activa = entity.activa,
+            minutosMinimos = politica.minutosMinimos,
         )
 }

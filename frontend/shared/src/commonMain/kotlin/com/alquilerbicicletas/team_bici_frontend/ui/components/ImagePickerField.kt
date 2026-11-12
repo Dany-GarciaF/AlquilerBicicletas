@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -22,7 +23,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.layout.ContentScale
+import com.alquilerbicicletas.team_bici_frontend.network.dto.AjusteImagen
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import io.github.vinceglb.filekit.dialogs.FileKitType
@@ -51,6 +55,8 @@ fun ImagePickerField(
     removed: Boolean,
     onPicked: (PickedImage) -> Unit,
     onRemove: () -> Unit,
+    ajuste: AjusteImagen,
+    onAjusteChange: (AjusteImagen) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
@@ -84,8 +90,8 @@ fun ImagePickerField(
                 .background(MaterialTheme.colorScheme.surfaceVariant),
         ) {
             when {
-                picked != null -> AsyncImage(picked.bytes, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                currentUrl != null && !removed -> BikePhoto(currentUrl, Modifier.fillMaxSize())
+                picked != null -> PickedPreview(picked.bytes, ajuste)
+                currentUrl != null && !removed -> BikePhoto(currentUrl, Modifier.fillMaxSize(), ajuste = ajuste)
                 else -> Box(Modifier.fillMaxSize().padding(16.dp)) {
                     BikeIllustration(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f), Modifier.fillMaxSize())
                 }
@@ -95,10 +101,35 @@ fun ImagePickerField(
             OutlinedButton(onClick = { launcher.launch() }) { Text(if (hasImage) "Cambiar imagen" else "Subir imagen") }
             if (hasImage) TextButton(onClick = onRemove) { Text("Quitar") }
         }
+        if (hasImage) {
+            Text("Ajuste en la tarjeta", style = MaterialTheme.typography.labelLarge)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(ajuste == AjusteImagen.RELLENAR, { onAjusteChange(AjusteImagen.RELLENAR) }, { Text("Rellenar") })
+                FilterChip(ajuste == AjusteImagen.COMPLETA, { onAjusteChange(AjusteImagen.COMPLETA) }, { Text("Completa") })
+            }
+            Text(
+                if (ajuste == AjusteImagen.RELLENAR) "Cubre toda la tarjeta; puede recortar los bordes." else "Muestra la foto entera, sin recortes.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
         Text(
             error ?: "JPG, PNG o WebP de hasta 5 MB.",
             style = MaterialTheme.typography.bodySmall,
             color = if (error != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+/** Preview of a freshly picked file using the same fit rules as the bike card. */
+@Composable
+private fun PickedPreview(bytes: ByteArray, ajuste: AjusteImagen) {
+    if (ajuste == AjusteImagen.COMPLETA) {
+        Box(Modifier.fillMaxSize()) {
+            AsyncImage(bytes, null, Modifier.fillMaxSize().blur(24.dp).alpha(0.65f), contentScale = ContentScale.Crop)
+            AsyncImage(bytes, null, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
+        }
+    } else {
+        AsyncImage(bytes, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
     }
 }

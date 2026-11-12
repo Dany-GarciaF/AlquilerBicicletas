@@ -9,6 +9,7 @@ data class BicicletaRequestDto(
     val modelo: String,
     val tipo: TipoBicicleta,
     val estacionId: Long,
+    val imagenAjuste: AjusteImagen? = null,
 )
 
 @Serializable
@@ -22,7 +23,15 @@ data class BicicletaResponseDto(
     val estacionId: Long,
     val estacionNombre: String,
     val imagenUrl: String? = null,
+    val imagenAjuste: AjusteImagen = AjusteImagen.RELLENAR,
 )
+
+/** Cómo se encaja la foto en su tarjeta: RELLENAR recorta, COMPLETA la muestra entera. */
+@Serializable
+enum class AjusteImagen {
+    RELLENAR,
+    COMPLETA,
+}
 
 @Serializable
 enum class TipoBicicleta {

@@ -34,6 +34,8 @@ security:
   token-cleanup-cron: ${TOKEN_CLEANUP_CRON:0 0 3 * * *}
 
 team-bici:
+  alquiler:
+    minutos-minimos: ${ALQUILER_MINUTOS_MINIMOS:30}
   bootstrap-admin:
     email: ${ADMIN_EMAIL:}
     password: ${ADMIN_PASSWORD:}

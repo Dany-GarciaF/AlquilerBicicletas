@@ -1,5 +1,6 @@
 package com.alquilerbicicletas.teambicibackend.domain.entity
 
+import com.alquilerbicicletas.teambicibackend.domain.enums.AjusteImagen
 import com.alquilerbicicletas.teambicibackend.domain.enums.EstadoBicicleta
 import com.alquilerbicicletas.teambicibackend.domain.enums.TipoBicicleta
 import jakarta.persistence.Column
@@ -40,4 +41,8 @@ class Bicicleta(
 
     @Column(name = "imagen_url", length = 500)
     var imagenUrl: String? = null
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "imagen_ajuste", nullable = false, length = 20, columnDefinition = "varchar(20) not null default 'RELLENAR'")
+    var imagenAjuste: AjusteImagen = AjusteImagen.RELLENAR
 }

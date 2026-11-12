@@ -72,7 +72,7 @@ fun BicicletaCard(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     Text(
-                        " / hora",
+                        " / hora · mín. ${tarifa.minutosMinimos} min",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 2.dp),
@@ -111,6 +111,7 @@ private fun BicicletaVisual(bicicleta: BicicletaResponseDto) {
             url = bicicleta.imagenUrl,
             contentDescription = "${bicicleta.marca} ${bicicleta.modelo}",
             modifier = Modifier.fillMaxSize(),
+            ajuste = bicicleta.imagenAjuste,
             fallback = {
                 BikeIllustration(
                     color = Color.White.copy(alpha = 0.35f),

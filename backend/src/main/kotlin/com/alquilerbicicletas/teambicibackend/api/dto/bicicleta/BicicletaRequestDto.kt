@@ -1,5 +1,6 @@
 package com.alquilerbicicletas.teambicibackend.api.dto.bicicleta
 
+import com.alquilerbicicletas.teambicibackend.domain.enums.AjusteImagen
 import com.alquilerbicicletas.teambicibackend.domain.enums.TipoBicicleta
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -19,4 +20,5 @@ data class BicicletaRequestDto(
     val tipo: TipoBicicleta,
     @field:NotNull
     val estacionId: Long,
+    val imagenAjuste: AjusteImagen? = null,
 )

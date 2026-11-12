@@ -10,9 +10,9 @@ import com.alquilerbicicletas.teambicibackend.exception.ResourceNotFoundExceptio
 import com.alquilerbicicletas.teambicibackend.mapper.AlquilerMapper
 import com.alquilerbicicletas.teambicibackend.repository.*
 import com.alquilerbicicletas.teambicibackend.service.AlquilerService
+import com.alquilerbicicletas.teambicibackend.service.PoliticaCobro
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.RoundingMode
 import java.time.Duration
 import java.time.Instant
 
@@ -21,6 +21,7 @@ import java.time.Instant
 class AlquilerServiceImpl(
     private val alquileres: AlquilerRepository, private val usuarios: UsuarioRepository, private val bicicletas: BicicletaRepository,
     private val estaciones: EstacionRepository, private val tarifas: TarifaRepository, private val mapper: AlquilerMapper,
+    private val politicaCobro: PoliticaCobro,
 ) : AlquilerService {
     @Transactional
     override fun crear(usuarioId: Long, dto: AlquilerRequestDto): AlquilerResponseDto {
@@ -42,7 +43,7 @@ class AlquilerServiceImpl(
         if (!estacion.activa) throw BusinessException("La estación de devolución está inactiva")
         val fin = Instant.now()
         alquiler.fechaFin = fin; alquiler.estacionDevolucion = estacion; alquiler.estado = EstadoAlquiler.FINALIZADO
-        alquiler.costoFinal = alquiler.tarifaHoraAplicada.multiply(Duration.between(alquiler.fechaInicio, fin).toMinutes().toBigDecimal()).divide(60.toBigDecimal(), 2, RoundingMode.HALF_UP)
+        alquiler.costoFinal = politicaCobro.costo(alquiler.tarifaHoraAplicada, Duration.between(alquiler.fechaInicio, fin))
         alquiler.bicicleta.estado = EstadoBicicleta.DISPONIBLE; alquiler.bicicleta.estacionActual = estacion
         return mapper.toResponse(alquiler)
     }
