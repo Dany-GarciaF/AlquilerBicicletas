@@ -1,5 +1,6 @@
 package com.alquilerbicicletas.teambicibackend.api.dto.bicicleta
 
+import com.alquilerbicicletas.teambicibackend.domain.enums.AjusteImagen
 import com.alquilerbicicletas.teambicibackend.domain.enums.EstadoBicicleta
 import com.alquilerbicicletas.teambicibackend.domain.enums.TipoBicicleta
 
@@ -13,4 +14,5 @@ data class BicicletaResponseDto(
     val estacionId: Long,
     val estacionNombre: String,
     val imagenUrl: String?,
+    val imagenAjuste: AjusteImagen,
 )

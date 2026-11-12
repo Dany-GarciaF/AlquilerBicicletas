@@ -16,7 +16,7 @@ class BicicletaMapper {
             modelo = dto.modelo.trim(),
             tipo = dto.tipo,
             estacionActual = estacion,
-        )
+        ).also { entity -> dto.imagenAjuste?.let { entity.imagenAjuste = it } }
 
     fun updateEntity(dto: BicicletaRequestDto, entity: Bicicleta, estacion: Estacion) {
         entity.codigo = dto.codigo.trim().uppercase()
@@ -24,6 +24,7 @@ class BicicletaMapper {
         entity.modelo = dto.modelo.trim()
         entity.tipo = dto.tipo
         entity.estacionActual = estacion
+        dto.imagenAjuste?.let { entity.imagenAjuste = it }
     }
 
     fun toResponse(entity: Bicicleta): BicicletaResponseDto =
@@ -37,5 +38,6 @@ class BicicletaMapper {
             estacionId = entity.estacionActual.id!!,
             estacionNombre = entity.estacionActual.nombre,
             imagenUrl = entity.imagenUrl,
+            imagenAjuste = entity.imagenAjuste,
         )
 }
